@@ -6,6 +6,7 @@ import six
 from keras.callbacks import Callback
 from matplotlib import pyplot as plt
 from keras.callbacks import History 
+from keras.callbacks import ModelCheckpoint 
 
 
 def find_latest_checkpoint(checkpoints_path, fail_safe=True):
@@ -153,8 +154,11 @@ def train(model,
             n_classes, input_height, input_width, output_height, output_width)
 
     history = History()
+    save_checkpoint = keras.callbacks.ModelCheckpoint ('saved.h5',
+    save_best_only = True, monitor = 'val_loss', mode = 'min', save_freq =
+    'epoch')
     callbacks = [
-        CheckpointsCallback(checkpoints_path), history
+        CheckpointsCallback(checkpoints_path), history, save_checkpoint
     ]
 
     if not validate:
